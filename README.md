@@ -1,1 +1,0 @@
-# dls-xasanov-mini-app
