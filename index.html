@@ -320,52 +320,13 @@ function paymentDone(){
   document.getElementById("success").classList.remove("hidden");
 }
 
-async function cancelPayment(){
+function cancelPayment(){
   tg.HapticFeedback.impactOccurred("light");
-
-  tg.showConfirm("E’lonni bekor qilmoqchimisiz?", async function(confirmed){
-    if (!confirmed) return;
-
-    try{
-      const res = await fetch(
-        `${API_BASE}/api/ad/${adId}/cancel`,
-        {
-          method: "POST",
-          headers: {
-            "X-Telegram-Init-Data": tg.initData
-          }
-        }
-      );
-
-      const data = await res.json();
-
-      if(!res.ok || !data.ok){
-        tg.showPopup({
-          title: "Xatolik",
-          message: data.error || "E’lonni bekor qilib bo‘lmadi.",
-          buttons: [{type:"ok"}]
-        });
-        return;
-      }
-
-      tg.HapticFeedback.notificationOccurred("success");
-
-      tg.showPopup({
-        title: "Bekor qilindi",
-        message: "E’loningiz muvaffaqiyatli bekor qilindi.",
-        buttons: [{type:"ok"}]
-      }, function(){
-        tg.close();
-      });
-
-    }catch(e){
-      tg.showPopup({
-        title: "Xatolik",
-        message: "Server bilan bog‘lanib bo‘lmadi.",
-        buttons: [{type:"ok"}]
-      });
-    }
-  });
+  tg.sendData(JSON.stringify({
+    action:"cancel_payment",
+    ad_id:adId
+  }));
+  tg.close();
 }
 
 loadPayment();
