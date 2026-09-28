@@ -322,11 +322,20 @@ function paymentDone(){
 
 function cancelPayment(){
   tg.HapticFeedback.impactOccurred("light");
-  tg.sendData(JSON.stringify({
-    action:"cancel_payment",
-    ad_id:adId
-  }));
-  tg.close();
+
+  if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+    tg.showConfirm("E’lonni bekor qilmoqchimisiz?", function(confirmed){
+      if (confirmed) {
+        tg.sendData(JSON.stringify({
+          action: "cancel_payment",
+          ad_id: adId
+        }));
+        tg.close();
+      }
+    });
+  } else {
+    tg.close();
+  }
 }
 
 loadPayment();
