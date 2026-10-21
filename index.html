@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>DLS | XASANOV — To‘lov</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+:root{
+  --bg:#05070d;
+  --card:#0d111c;
+  --card2:#111827;
+  --line:rgba(255,255,255,.08);
+  --text:#f7f9ff;
+  --muted:#8e99ad;
+  --blue:#248cff;
+  --blue2:#1768ff;
+  --green:#22c985;
+  --danger:#ff526d;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--text)}
+body{
+  background:
+    radial-gradient(circle at 50% -10%,rgba(28,113,255,.28),transparent 38%),
+    radial-gradient(circle at 100% 45%,rgba(0,132,255,.08),transparent 32%),
+    #05070d;
+}
+.app{max-width:480px;margin:auto;padding:18px 16px 28px}
+.header{text-align:center;padding:8px 0 20px}
+.logo{
+  width:62px;height:62px;margin:auto;border-radius:20px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:31px;background:linear-gradient(145deg,#1d7fff,#0844b8);
+  box-shadow:0 12px 35px rgba(19,112,255,.32);
+}
+.brand{font-size:23px;font-weight:850;letter-spacing:.8px;margin-top:13px}
+.subtitle{font-size:12px;color:var(--muted);margin-top:5px}
+.badge{
+  display:inline-flex;align-items:center;gap:6px;margin-top:12px;
+  padding:7px 11px;border-radius:999px;background:rgba(34,201,133,.08);
+  border:1px solid rgba(34,201,133,.18);color:#65e4b0;font-size:11px;font-weight:700
+}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green)}
+.card{
+  background:linear-gradient(145deg,rgba(17,24,39,.96),rgba(9,13,23,.96));
+  border:1px solid var(--line);border-radius:22px;padding:18px;
+  box-shadow:0 18px 55px rgba(0,0,0,.28);margin-bottom:12px
+}
+.hero{text-align:center;padding:24px 18px}
+.hero-icon{font-size:34px;margin-bottom:7px}
+.hero-title{font-size:20px;font-weight:800}
+.hero-sub{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.5}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.7px}
+.value{font-size:15px;font-weight:750;margin-top:4px}
+.amount{
+  font-size:31px;font-weight:900;letter-spacing:-1px;
+  background:linear-gradient(90deg,#fff,#74b5ff);
+  -webkit-background-clip:text;background-clip:text;color:transparent
+}
+.divider{height:1px;background:var(--line);margin:16px 0}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}
+.info{
+  padding:12px;border-radius:15px;background:rgba(255,255,255,.035);
+  border:1px solid rgba(255,255,255,.055)
+}
+.info .value{font-size:14px}
+.paybox{
+  margin-top:12px;padding:15px;border-radius:17px;
+  background:rgba(36,140,255,.065);border:1px solid rgba(36,140,255,.16)
+}
+.payline{display:flex;align-items:center;gap:11px}
+.payicon{
+  width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+  background:rgba(36,140,255,.14);font-size:19px
+}
+.copy{
+  border:0;background:rgba(255,255,255,.06);color:#b8c5d9;border-radius:10px;
+  padding:8px 10px;font-size:14px;cursor:pointer
+}
+.copy:active{transform:scale(.96)}
+.timer{
+  text-align:center;margin:16px 0 13px;padding:12px;border-radius:15px;
+  background:rgba(255,82,109,.055);border:1px solid rgba(255,82,109,.12)
+}
+.timer span{color:#ff7187;font-weight:850;font-size:17px}
+.timer-warn{
+  margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,82,109,.12);
+  color:#ff7187;font-size:11px;font-weight:800;line-height:1.5
+}
+.btn{
+  width:100%;border:0;border-radius:15px;padding:15px 14px;
+  font-size:15px;font-weight:800;cursor:pointer;color:white
+}
+.btn:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
+.primary{
+  background:linear-gradient(135deg,#258dff,#155cf3);
+  box-shadow:0 10px 25px rgba(30,113,255,.25)
+}
+.primary:active:not(:disabled){transform:scale(.985)}
+.cancel{margin-top:9px;background:transparent;color:#7f899b;font-size:13px;padding:11px}
+.footer{text-align:center;color:#566174;font-size:10px;line-height:1.6;margin-top:17px}
+.hidden{display:none!important}
+.success{text-align:center;padding:30px 20px}
+.success-icon{
+  width:72px;height:72px;margin:0 auto 15px;border-radius:24px;
+  display:flex;align-items:center;justify-content:center;font-size:34px;
+  background:rgba(34,201,133,.1);border:1px solid rgba(34,201,133,.2)
+}
+.spinner{
+  width:34px;height:34px;margin:6px auto 15px;border:3px solid rgba(255,255,255,.12);
+  border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="header">
+    <div class="logo">⚽</div>
+    <div class="brand">DLS | XASANOV</div>
+    <div class="subtitle">Professional secure payment</div>
+    <div class="badge"><span class="dot"></span> To‘lov oynasi himoyalangan</div>
+  </header>
+
+  <section id="loading" class="card hero">
+    <div class="spinner"></div>
+    <div class="hero-title">Ma’lumotlar yuklanmoqda</div>
+    <div class="hero-sub" id="loadingSub">E’lon va to‘lov ma’lumotlari tekshirilmoqda...</div>
+  </section>
+
+  <main id="payment" class="hidden">
+    <section class="card">
+      <div class="row">
+        <div>
+          <div class="label">Xizmat haqi</div>
+          <div class="value">E’lon joylashtirish</div>
+        </div>
+        <div class="amount" id="fee">0 so‘m</div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="label">E’lon ma’lumotlari</div>
+      <div class="info-grid">
+        <div class="info">
+          <div class="label">E’lon ID</div>
+          <div class="value" id="adIdText">#—</div>
+        </div>
+        <div class="info">
+          <div class="label">Sotuv turi</div>
+          <div class="value" id="saleType">—</div>
+        </div>
+      </div>
+
+      <div class="info" style="margin-top:9px">
+        <div class="label">Akkaunt narxi</div>
+        <div class="value" id="accountPrice">—</div>
+      </div>
+
+      <div class="paybox">
+        <div class="payline">
+          <div class="payicon">💳</div>
+          <div style="flex:1">
+            <div class="label">Karta raqami</div>
+            <div class="value" id="cardNumber">—</div>
+          </div>
+          <button class="copy" onclick="copyCard()">📋</button>
+        </div>
+
+        <div class="divider" style="margin:13px 0"></div>
+
+        <div class="payline">
+          <div class="payicon">👤</div>
+          <div style="flex:1">
+            <div class="label">Karta egasi</div>
+            <div class="value" id="cardHolder">—</div>
+          </div>
+        </div>
+
+        <div class="divider" style="margin:13px 0"></div>
+
+        <div class="payline">
+          <div class="payicon">💰</div>
+          <div style="flex:1">
+            <div class="label">To‘lov summasi</div>
+            <div class="value" id="paymentAmount">—</div>
+          </div>
+          <button class="copy" onclick="copyAmount()">📋</button>
+        </div>
+      </div>
+
+      <div class="timer">
+        <div class="label">To‘lovni amalga oshirish uchun</div>
+        <span id="timer">05:00</span>
+        <div class="timer-warn">
+          ⚠️ TO‘LOVNI 5 DAQIQA ICHIDA QILING!<br>
+          Aks holda to‘lovingiz bekor bo‘ladi.
+        </div>
+      </div>
+
+      <button class="btn primary" id="payBtn" onclick="paymentDone()">✅ To‘lov qildim</button>
+      <button class="btn cancel" onclick="cancelPayment()">Bekor qilish</button>
+    </section>
+
+    <div class="footer">
+      To‘lovni amalga oshirgach, <b>“To‘lov qildim”</b> tugmasini bosing.<br>
+      DLS | XASANOV • xavfsiz xizmat
+    </div>
+  </main>
+
+  <section id="success" class="card success hidden">
+    <div class="success-icon">✓</div>
+    <div class="hero-title">To‘lov yuborildi</div>
+    <div class="hero-sub">
+      To‘lov haqidagi ma’lumot botga yuborildi.<br>
+      Tasdiqlash jarayoni boshlanadi.
+    </div>
+  </section>
+
+</div>
+
+<script>
+const tg = window.Telegram.WebApp;
+tg.ready();
+tg.expand();
+
+// MUHIM: bu yerga Render manzilingizni yozing (trycloudflare vaqtinchalik, har safar o‘zgaradi)
+const API_BASE = "https://SIZNING-BOT-NOMI.onrender.com";
+
+const PAY_SECONDS = 300;
+const params = new URLSearchParams(window.location.search);
+const adId = (params.get("ad_id") || "").trim();
+
+let paymentAmount = 0;
+let cardDigits = "";
+let expiresAt = 0;
+let timerInterval = null;
+let submitted = false;
+
+function formatMoney(value){
+  const n = Number(value || 0);
+  return n.toLocaleString("uz-UZ") + " so‘m";
+}
+
+function showError(text){
+  const box = document.getElementById("loading");
+  box.innerHTML = "";
+
+  const icon = document.createElement("div");
+  icon.style.cssText = "font-size:30px;margin-bottom:10px";
+  icon.textContent = "⚠️";
+
+  const title = document.createElement("div");
+  title.className = "hero-title";
+  title.textContent = "Ma’lumot topilmadi";
+
+  const sub = document.createElement("div");
+  sub.className = "hero-sub";
+  sub.textContent = text;
+
+  box.append(icon, title, sub);
+}
+
+// Render bepul tarifida server uxlab qolgan bo‘lishi mumkin: kutamiz va qayta urinamiz
+async function fetchJson(url, tries = 3, timeoutMs = 30000){
+  let lastErr;
+  for(let i = 0; i < tries; i++){
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), timeoutMs);
+    try{
+      const res = await fetch(url, { signal: ctrl.signal });
+      clearTimeout(timer);
+      if(res.status === 404){
+        const err = new Error("not_found");
+        err.noRetry = true;
+        throw err;
+      }
+      if(!res.ok) throw new Error("HTTP " + res.status);
+      return await res.json();
+    }catch(e){
+      clearTimeout(timer);
+      lastErr = e;
+      if(e.noRetry) break;
+      if(i < tries - 1) await new Promise(r => setTimeout(r, 1500));
+    }
+  }
+  throw lastErr;
+}
+
+async function loadPayment(){
+  if(!adId || adId.length > 64){
+    showError("E’lon ID aniqlanmadi.");
+    return;
+  }
+
+  // 4 soniyadan keyin ham yuklanmasa, foydalanuvchiga tushuntiramiz
+  const slowHint = setTimeout(() => {
+    document.getElementById("loadingSub").textContent =
+      "Server ishga tushmoqda, iltimos biroz kuting...";
+  }, 4000);
+
+  try{
+    const data = await fetchJson(`${API_BASE}/api/ad/${encodeURIComponent(adId)}`);
+    clearTimeout(slowHint);
+
+    document.getElementById("fee").textContent = formatMoney(data.ad_fee);
+    document.getElementById("adIdText").textContent = "#" + data.ad_id;
+    document.getElementById("accountPrice").textContent =
+      data.price ? formatMoney(data.price) : "Obmen";
+    document.getElementById("saleType").textContent =
+      data.sale_type === "obmen" ? "🔄 Obmen" : "💵 Naqd pulga";
+
+    document.getElementById("cardNumber").textContent = data.card_number || "—";
+    document.getElementById("cardHolder").textContent = data.card_holder || "—";
+
+    cardDigits = String(data.card_number || "").replace(/\D/g, "");
+    paymentAmount = Number(data.ad_fee || 0);
+    document.getElementById("paymentAmount").textContent = formatMoney(paymentAmount);
+
+    document.getElementById("loading").classList.add("hidden");
+    document.getElementById("payment").classList.remove("hidden");
+
+    startTimer();
+  }catch(e){
+    clearTimeout(slowHint);
+    if(e.message === "not_found"){
+      showError("Bu e’lon topilmadi yoki muddati o‘tgan.");
+    }else{
+      showError("To‘lov ma’lumotlarini yuklashda xatolik yuz berdi. Keyinroq qayta urinib ko‘ring.");
+    }
+  }
+}
+
+async function copyValue(text){
+  if(!text) return;
+  try{
+    await navigator.clipboard.writeText(text);
+  }catch(e){
+    // Ba’zi Telegram webview'larida clipboard API ishlamaydi
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.cssText = "position:fixed;opacity:0;top:0;left:0";
+    document.body.appendChild(ta);
+    ta.select();
+    try{ document.execCommand("copy"); }catch(_){}
+    document.body.removeChild(ta);
+  }
+  tg.HapticFeedback.notificationOccurred("success");
+  tg.showPopup({title:"Nusxalandi", message:"Ma’lumot nusxalandi.", buttons:[{type:"ok"}]});
+}
+
+function copyCard(){ copyValue(cardDigits); }
+function copyAmount(){ copyValue(String(paymentAmount)); }
+
+function startTimer(){
+  const el = document.getElementById("timer");
+  expiresAt = Date.now() + PAY_SECONDS * 1000;
+
+  const tick = () => {
+    const left = Math.max(0, Math.round((expiresAt - Date.now()) / 1000));
+    const m = Math.floor(left / 60);
+    const s = left % 60;
+    el.textContent = `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+    if(left <= 0){
+      clearInterval(timerInterval);
+      expirePayment();
+    }
+  };
+
+  tick();
+  timerInterval = setInterval(tick, 1000);
+}
+
+function expirePayment(){
+  const btn = document.getElementById("payBtn");
+  btn.disabled = true;
+  btn.textContent = "⌛ Vaqt tugadi";
+}
+
+function paymentDone(){
+  if(submitted || Date.now() > expiresAt) return;
+  submitted = true;
+  clearInterval(timerInterval);
+
+  tg.HapticFeedback.notificationOccurred("success");
+  document.getElementById("payment").classList.add("hidden");
+  document.getElementById("success").classList.remove("hidden");
+
+  tg.sendData(JSON.stringify({
+    action: "payment_done",
+    ad_id: adId,
+    amount: paymentAmount
+  }));
+}
+
+function cancelPayment(){
+  if(submitted) return;
+  submitted = true;
+  clearInterval(timerInterval);
+
+  tg.HapticFeedback.impactOccurred("light");
+  tg.sendData(JSON.stringify({
+    action: "cancel_payment",
+    ad_id: adId
+  }));
+  tg.close();
+}
+
+loadPayment();
+</script>
+</body>
+</html>
